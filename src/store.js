@@ -1,36 +1,36 @@
-import {createStore, applyMiddleware, combineReducers } from 'redux'
+import { createStore, applyMiddleware, combineReducers } from 'redux'
 import logger from 'redux-logger'
 import createSagaMiddleware from '@redux-saga/core'
 import rootsaga from './rootsaga'
+import { addCartItem, removeCartItem } from './utility'
 
 
-
-const products = (state=[], action) => {
-    switch(action.type){
+const products = (state = [], action) => {
+    switch (action.type) {
         case "ADD_TO_PRODUCTS_SUCCESS":
             return action.payload
         default:
             return state
     }
 }
-const cart = (state=[], action) => {
-    switch(action.type){
+const cart = (state = [], action) => {
+    switch (action.type) {
         case "ADD_TO_CART":
             return [
-                ...state,
-                action.payload
+                ...addCartItem(state, action.payload)
             ]
         case "REMOVE_TO_CART":
-            return {
-                ...state,
-                ...action.payload
-            }
+            return [
+                ...removeCartItem(state, action.payload)
+            ]
+        case "CLARE_CART":
+            return []
         default:
             return state
     }
 }
 
-const rootReducer =  combineReducers({
+const rootReducer = combineReducers({
     products,
     cart
 })
