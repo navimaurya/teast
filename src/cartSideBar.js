@@ -4,14 +4,14 @@ import { Link } from 'react-router-dom'
 import CartItem from './components/cartItem'
 
 
-const CartSidebar = ({ cartItems }) => {
+const CartSidebar = ({ cartItems, clearItems }) => {
     let total = 0;
     let totalItems = 0;
     return (
         <div>
             <div className='p-3 pb-0 d-flex' style={{ justifyContent: 'space-between' }}>
                 <h5 className='d-inline'>My cart </h5>
-                <button className='btn border'> Cleare</button>
+                <button className='btn border' onClick={() => clearItems()}> Cleare</button>
             </div>
             <hr />
             {
@@ -44,6 +44,5 @@ const CartSidebar = ({ cartItems }) => {
 const mapStatToProps = state => ({
     cartItems: state.cart
 })
-
-export default connect(mapStatToProps)(CartSidebar)
+export default connect(mapStatToProps, dispatch => ({ clearItems: () => dispatch({ type: 'CLARE_CART' }) }))(CartSidebar)
 
